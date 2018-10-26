@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import "./App.css";
 import styled from "styled-components";
 const CustomElement = styled.div`
-  color: green;
   font-size: 30px;
 `;
 
-const Blue = styled(CustomElement)`
-  color: blue;
-`;
+const Blue = styled(CustomElement)``;
 
 class App extends Component {
   render() {
