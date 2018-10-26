@@ -33,6 +33,42 @@ const Blue = styled(CustomElement)`
 `;
 ```
 
+## styledComponent で演算
+
+```js
+import styled, { css } from "styled-components";
+
+//props.active active={this.displayingDashboard()}ここの条件が実行されたら${props=>}が走る
+const ControlButton = styled.div`
+  color: red;
+  ${props =>
+    props.active &&
+    css`
+      text-shadow: 0px 0px 60px #03ff03;
+      colore: blue;
+    `};
+`;
+
+class App extends Component {
+  state = {
+    page: "dashboard"
+  };
+
+  //stateのpageがdashboardであれば[ControlButton]が実行される
+  displayingDashboard = () => this.state.page === "dashboard";
+
+  render() {
+    return (
+      <AppLayout>
+        <Bar>
+          <Logo>CryptoDash</Logo>
+          <div />
+          //activeで関数が実行↑
+          <ControlButton active={this.displayingDashboard()}>
+            Dashboard
+      //抜粋
+```
+
 ## Google font
 
 - https://fonts.google.com/?query=Do+h&selection.family=Do+Hyeon
