@@ -16,6 +16,8 @@
 
 ## styledComponent extends
 
+- https://www.styled-components.com/docs/basics#extending-styles
+
 ```js
 // import
 import styled from "styled-components";
