@@ -33,7 +33,7 @@ export default function() {
   return (
     <CoinGrid>
       {Object.keys(coinData)
-        .slice(0, 10)
+        .slice(0, 50)
         .map(coin => (
           <CoinTitle key={coin}>
             <CoinHeaderGrid>

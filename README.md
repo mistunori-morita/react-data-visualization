@@ -8,6 +8,7 @@
 
 - yarn add styled-components
 - yarn add cryptocompare (coin の api)
+- https://www.cryptocompare.com/
 
 ## ショートカット
 
