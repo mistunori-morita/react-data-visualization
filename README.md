@@ -70,6 +70,28 @@ class App extends Component {
       //抜粋
 ```
 
+## styledComponent 別管理
+
+```js
+//みたいに切り分けて
+export const fontColorGren = `color: #03A9F4`;
+export const fontColorWhite = `color: #fff`;
+export const subtleBoxShadow = `box-shadow: 0px 0px 5px 1px #121d5b`;
+export const greenBoxShadow = `box-shadow: 0px 0px 4px 2px #5fff17`;
+export const redBoxShadow = `box-shadow: 0px 0px 2px 2px #e41111`;
+```
+
+```js
+//importして
+import { subtleBoxShadow } from "./Style";
+
+const CoinTitle = styled.div`
+//ここで使う的な感じ
+  ${subtleBoxShadow}
+  border: 1px solid #fff;
+  padding: 10px;
+```
+
 ## Google font
 
 - https://fonts.google.com/?query=Do+h&selection.family=Do+Hyeon
