@@ -7,6 +7,7 @@
 ## 必要なライブラリ
 
 - yarn add styled-components
+- yarn add cryptocompare (coin の api)
 
 ## ショートカット
 

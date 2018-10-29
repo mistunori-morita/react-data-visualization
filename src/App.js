@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import AppBar from "./AppBar";
+const cc = require("cryptocompare");
 
 const AppLayout = styled.div`
   padding: 40px;
@@ -23,6 +24,16 @@ class App extends Component {
   state = {
     page: "dashboard",
     ...checkFirstVisit()
+  };
+
+  componentDidMount = () => {
+    this.fetchCoins();
+  };
+
+  fetchCoins = async () => {
+    let coinList = (await cc.coinList()).Data;
+    console.log(coinList);
+    this.setState({ coinList });
   };
 
   displayingDashboard = () => this.state.page === "dashboard";
@@ -54,12 +65,20 @@ class App extends Component {
     );
   };
 
+  loadingContent = () => {
+    if (!this.state.coinList) {
+      return <div> Loading Coins </div>;
+    }
+  };
   render() {
     return (
       <AppLayout>
         {AppBar.call(this)}
-
-        <Content>{this.displayingSettings() && this.settingsContent()}</Content>
+        {this.loadingContent() || (
+          <Content>
+            {this.displayingSettings() && this.settingsContent()}
+          </Content>
+        )}
       </AppLayout>
     );
   }
