@@ -49,22 +49,35 @@ const CoinSymbol = styled.div`
 `;
 
 export default function(favorites = false) {
+  console.log(this.state);
   const coinData = this.state.coinList;
   let coinKeys = favorites
     ? this.state.favorites
     : Object.keys(this.state.coinList).slice(0, 100);
   return (
     <CoinGrid>
-      {coinKeys.map(coin => (
-        <CoinTitle key={coin} favorite={favorites}>
+      {coinKeys.map(coinKey => (
+        <CoinTitle
+          key={coinKey}
+          favorite={favorites}
+          onClick={
+            favorites
+              ? () => {
+                  this.removeCoinFromFavorites(coinKey);
+                }
+              : () => {
+                  this.addCoinToFavorites(coinKey);
+                }
+          }
+        >
           <CoinHeaderGrid>
-            <div>{coinData[coin].CoinName}</div>
-            <CoinSymbol>{coinData[coin].Symbol}</CoinSymbol>
+            <div>{coinData[coinKey].CoinName}</div>
+            <CoinSymbol>{coinData[coinKey].Symbol}</CoinSymbol>
           </CoinHeaderGrid>
           <div>
             <img
               style={{ height: "50px" }}
-              src={`http://cryptocompare.com/${coinData[coin].ImageUrl}`}
+              src={`http://cryptocompare.com/${coinData[coinKey].ImageUrl}`}
             />
           </div>
         </CoinTitle>

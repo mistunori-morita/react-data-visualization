@@ -11,6 +11,8 @@ const AppLayout = styled.div`
 
 const Content = styled.div``;
 
+const MAX_FAVORITES = 10;
+
 const checkFirstVisit = () => {
   let cryptoDashData = localStorage.getItem("cryptoDash");
   if (!cryptoDashData) {
@@ -76,6 +78,19 @@ class App extends Component {
       return <div> Loading Coins </div>;
     }
   };
+
+  addCoinToFavorites = key => {
+    let favorites = [...this.state.favorites];
+    if (favorites.length < MAX_FAVORITES) {
+      favorites.push(key);
+      this.setState({ favorites });
+    }
+  };
+
+  removeCoinFromFavorites = key => {
+    console.log("Remove", key);
+  };
+
   render() {
     return (
       <AppLayout>
