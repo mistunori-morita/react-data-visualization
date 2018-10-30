@@ -23,7 +23,8 @@ const checkFirstVisit = () => {
 
 class App extends Component {
   state = {
-    page: "dashboard",
+    page: "settings",
+    favorites: ["ETH", "BTC", "XMR", "DOGE", "EOS"],
     ...checkFirstVisit()
   };
 
@@ -62,7 +63,10 @@ class App extends Component {
       <div>
         {this.firstVisitMessage()}
         <div onClick={this.confirmFavorites}>Confirm Favorites</div>
-        <div>{CoinList.call(this)}</div>
+        <div>
+          {CoinList.call(this, true)}
+          {CoinList.call(this)}
+        </div>
       </div>
     );
   };

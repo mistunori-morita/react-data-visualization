@@ -1,6 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import React from "react";
-import { subtleBoxShadow, lightBlueBackground, greenBoxShadow } from "./Style";
+import {
+  subtleBoxShadow,
+  lightBlueBackground,
+  greenBoxShadow,
+  redBoxShadow
+} from "./Style";
 const CoinGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -17,6 +22,21 @@ const CoinTitle = styled.div`
     cursor: pointer;
     ${greenBoxShadow};
   }
+  ${props =>
+    props.favorite &&
+    css`
+      &:hover {
+        cursor: pointer;
+        ${redBoxShadow};
+      }
+    `};
+`;
+
+const FavoritedCoin = styled(CoinTitle)`
+  &:hover {
+    cursor: pointer;
+    ${redBoxShadow};
+  }
 `;
 
 const CoinHeaderGrid = styled.div`
@@ -28,26 +48,27 @@ const CoinSymbol = styled.div`
   justify-self: right;
 `;
 
-export default function() {
+export default function(favorites = false) {
   const coinData = this.state.coinList;
+  let coinKeys = favorites
+    ? this.state.favorites
+    : Object.keys(this.state.coinList).slice(0, 100);
   return (
     <CoinGrid>
-      {Object.keys(coinData)
-        .slice(0, 50)
-        .map(coin => (
-          <CoinTitle key={coin}>
-            <CoinHeaderGrid>
-              <div>{coinData[coin].CoinName}</div>
-              <CoinSymbol>{coinData[coin].Symbol}</CoinSymbol>
-            </CoinHeaderGrid>
-            <div>
-              <img
-                style={{ height: "50px" }}
-                src={`http://cryptocompare.com/${coinData[coin].ImageUrl}`}
-              />
-            </div>
-          </CoinTitle>
-        ))}
+      {coinKeys.map(coin => (
+        <CoinTitle key={coin} favorite={favorites}>
+          <CoinHeaderGrid>
+            <div>{coinData[coin].CoinName}</div>
+            <CoinSymbol>{coinData[coin].Symbol}</CoinSymbol>
+          </CoinHeaderGrid>
+          <div>
+            <img
+              style={{ height: "50px" }}
+              src={`http://cryptocompare.com/${coinData[coin].ImageUrl}`}
+            />
+          </div>
+        </CoinTitle>
+      ))}
     </CoinGrid>
   );
 }
