@@ -55,6 +55,15 @@ const CoinSymbol = styled.div`
   justify-self: right;
 `;
 
+const DeleteIcon = styled.div`
+  justify-self: right;
+  display: none;
+  ${CoinTitle}:hover & {
+    color: red;
+    display: block;
+  }
+`;
+
 export default function(favorites = false) {
   console.log(this.state);
   const coinData = this.state.coinList;
@@ -80,7 +89,11 @@ export default function(favorites = false) {
         >
           <CoinHeaderGrid>
             <div>{coinData[coinKey].CoinName}</div>
-            <CoinSymbol>{coinData[coinKey].Symbol}</CoinSymbol>
+            {favorites ? (
+              <DeleteIcon>X</DeleteIcon>
+            ) : (
+              <CoinSymbol>{coinData[coinKey].Symbol}</CoinSymbol>
+            )}
           </CoinHeaderGrid>
           <div>
             <img
