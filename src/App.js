@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import "./App.css";
 import styled from "styled-components";
 import AppBar from "./AppBar";
+import Search from "./Search";
 import CoinList from "./CoinList";
 import _ from "lodash";
+import { ConfirmButton } from "./Button";
 const cc = require("cryptocompare");
 
 const AppLayout = styled.div`
@@ -11,6 +13,10 @@ const AppLayout = styled.div`
 `;
 
 const Content = styled.div``;
+export const CenterDiv = styled.div`
+  display: grid;
+  justify-content: center;
+`;
 
 const MAX_FAVORITES = 10;
 
@@ -54,7 +60,12 @@ class App extends Component {
   };
 
   confirmFavorites = () => {
-    localStorage.setItem("cryptoDash", "test");
+    localStorage.setItem(
+      "cryptoDash",
+      JSON.stringify({
+        favorites: this.state.favorites
+      })
+    );
     this.setState({
       firstVisit: false,
       page: "dashboard"
@@ -65,9 +76,14 @@ class App extends Component {
     return (
       <div>
         {this.firstVisitMessage()}
-        <div onClick={this.confirmFavorites}>Confirm Favorites</div>
+        <CenterDiv>
+          <ConfirmButton onClick={this.confirmFavorites}>
+            Confirm Favorites
+          </ConfirmButton>
+        </CenterDiv>
         <div>
           {CoinList.call(this, true)}
+          {Search.call(this)}
           {CoinList.call(this)}
         </div>
       </div>
