@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import "./App.css";
 import styled from "styled-components";
+import fuzzy from "fuzzy";
 import AppBar from "./AppBar";
 import Search from "./Search";
 import CoinList from "./CoinList";
+
 import _ from "lodash";
 import { ConfirmButton } from "./Button";
+
 const cc = require("cryptocompare");
 
 const AppLayout = styled.div`
@@ -111,6 +114,34 @@ class App extends Component {
 
   isInFavorites = key => {
     return _.includes(this.state.favorites, key);
+  };
+  handleFilter = _.debounce(inputValue => {
+    let coinSymbols = Object.keys(this.state.coinList);
+    let coinNames = coinSymbols.map(sym => this.state.coinList[sym].CoinName);
+    let allStringsToSearch = coinSymbols.concat(coinNames);
+
+    let fuzzyResults = fuzzy
+      .filter(inputValue, allStringsToSearch, {})
+      .map(result => result.string);
+    console.log(fuzzyResults);
+    let filterdCoins = _.pickBy(this.state.coinList, (result, symKey) => {
+      let coinName = result.CoinName;
+      return (
+        _.includes(fuzzyResults, symKey) || _.includes(fuzzyResults, coinName)
+      );
+    });
+    this.setState({ filterdCoins });
+  }, 500);
+  filterCoins = e => {
+    console.log(e.target.value);
+    let inputValue = _.get(e, "target.value");
+    if (!inputValue) {
+      this.setState({
+        filterdCoins: ""
+      });
+      return;
+    }
+    this.handleFilter(inputValue);
   };
   render() {
     return (
