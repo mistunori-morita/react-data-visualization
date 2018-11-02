@@ -30,6 +30,13 @@ const CoinTitle = styled.div`
         ${redBoxShadow};
       }
     `};
+  ${props =>
+    props.chosen &&
+    !props.favorite &&
+    css`
+      pointer-events: none;
+      opacity: 0.4;
+    `};
 `;
 
 const FavoritedCoin = styled(CoinTitle)`
@@ -58,6 +65,7 @@ export default function(favorites = false) {
     <CoinGrid>
       {coinKeys.map(coinKey => (
         <CoinTitle
+          chosen={this.isInFavorites(coinKey)}
           key={coinKey}
           favorite={favorites}
           onClick={

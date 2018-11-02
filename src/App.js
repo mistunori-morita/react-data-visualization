@@ -3,6 +3,7 @@ import "./App.css";
 import styled from "styled-components";
 import AppBar from "./AppBar";
 import CoinList from "./CoinList";
+import _ from "lodash";
 const cc = require("cryptocompare");
 
 const AppLayout = styled.div`
@@ -88,9 +89,13 @@ class App extends Component {
   };
 
   removeCoinFromFavorites = key => {
-    console.log("Remove", key);
+    let favorites = [...this.state.favorites];
+    this.setState({ favorites: _.pull(favorites, key) });
   };
 
+  isInFavorites = key => {
+    return _.includes(this.state.favorites, key);
+  };
   render() {
     return (
       <AppLayout>
