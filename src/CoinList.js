@@ -7,9 +7,9 @@ import {
   redBoxShadow
 } from "./Style";
 
-import _ from "lodash";
+// import _ from "lodash";
 
-const CoinGrid = styled.div`
+export const CoinGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   ${props =>
@@ -20,7 +20,7 @@ const CoinGrid = styled.div`
   margin-top: 40px;
 `;
 
-const CoinTitle = styled.div`
+export const CoinTitle = styled.div`
   ${subtleBoxShadow};
   ${lightBlueBackground};
   border: 1px solid #fff;
@@ -46,23 +46,23 @@ const CoinTitle = styled.div`
     `};
 `;
 
-const FavoritedCoin = styled(CoinTitle)`
+export const FavoritedCoin = styled(CoinTitle)`
   &:hover {
     cursor: pointer;
     ${redBoxShadow};
   }
 `;
 
-const CoinHeaderGrid = styled.div`
+export const CoinHeaderGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
 
-const CoinSymbol = styled.div`
+export const CoinSymbol = styled.div`
   justify-self: right;
 `;
 
-const DeleteIcon = styled.div`
+export const DeleteIcon = styled.div`
   justify-self: right;
   display: none;
   ${CoinTitle}:hover & {
@@ -77,7 +77,7 @@ export default function(favorites = false) {
   let coinKeys = favorites
     ? this.state.favorites
     : (this.state.filterdCoins && Object.keys(this.state.filterdCoins)) ||
-      Object.keys(this.state.coinList).slice(0, 100);
+      Object.keys(this.state.coinList).slice(0, 10);
   return (
     <CoinGrid count={favorites && this.state.favorites.length}>
       {coinKeys.map(coinKey => (
@@ -95,14 +95,6 @@ export default function(favorites = false) {
                 }
           }
         >
-          <CoinHeaderGrid>
-            <div>{coinData[coinKey].CoinName}</div>
-            {favorites ? (
-              <DeleteIcon>X</DeleteIcon>
-            ) : (
-              <CoinSymbol>{coinData[coinKey].Symbol}</CoinSymbol>
-            )}
-          </CoinHeaderGrid>
           <div>
             <img
               style={{ height: "50px" }}
