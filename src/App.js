@@ -24,13 +24,16 @@ export const CenterDiv = styled.div`
 const MAX_FAVORITES = 10;
 
 const checkFirstVisit = () => {
-  let cryptoDashData = localStorage.getItem("cryptoDash");
+  let cryptoDashData = JSON.parse(localStorage.getItem("cryptoDash"));
   if (!cryptoDashData) {
     return {
       firstVisit: true,
       page: "settings"
     };
   }
+  return {
+    favorites: cryptoDashData.favorites
+  };
 };
 
 class App extends Component {
