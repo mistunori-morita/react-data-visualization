@@ -5,7 +5,7 @@ import fuzzy from "fuzzy";
 import AppBar from "./AppBar";
 import Search from "./Search";
 import CoinList from "./CoinList";
-
+import Dashboard from "./Dashboard";
 import _ from "lodash";
 import { ConfirmButton } from "./Button";
 
@@ -45,12 +45,30 @@ class App extends Component {
 
   componentDidMount = () => {
     this.fetchCoins();
+    this.fetchPrices();
   };
 
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
     console.log(coinList);
     this.setState({ coinList });
+  };
+  fetchPrices = async () => {
+    let prices;
+    try {
+      prices = await this.prices();
+    } catch (e) {
+      this.setState({ error: true });
+    }
+    console.log(prices);
+    this.setState({ prices });
+  };
+  prices = () => {
+    let promises = [];
+    this.state.favorites.forEach(sym => {
+      promises.push(cc.priceFull(sym, "USD"));
+    });
+    return Promise.all(promises);
   };
 
   displayingDashboard = () => this.state.page === "dashboard";
@@ -99,6 +117,9 @@ class App extends Component {
   loadingContent = () => {
     if (!this.state.coinList) {
       return <div> Loading Coins </div>;
+    }
+    if (!this.state.prices) {
+      return <div>Loading Prices</div>;
     }
   };
 
@@ -153,6 +174,7 @@ class App extends Component {
         {this.loadingContent() || (
           <Content>
             {this.displayingSettings() && this.settingsContent()}
+            {this.displayingDashboard() && Dashboard.call(this)}
           </Content>
         )}
       </AppLayout>
