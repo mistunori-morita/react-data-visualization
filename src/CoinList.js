@@ -77,7 +77,7 @@ export default function(favorites = false) {
   let coinKeys = favorites
     ? this.state.favorites
     : (this.state.filterdCoins && Object.keys(this.state.filterdCoins)) ||
-      Object.keys(this.state.coinList).slice(0, 10);
+      Object.keys(this.state.coinList).slice(0, 50);
   return (
     <CoinGrid count={favorites && this.state.favorites.length}>
       {coinKeys.map(coinKey => (
