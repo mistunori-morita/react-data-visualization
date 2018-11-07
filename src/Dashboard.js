@@ -59,6 +59,13 @@ export default function() {
               self.setState({
                 currentFavorite: sym
               });
+              localStorage.setItem(
+                "cryptoDash",
+                JSON.stringify({
+                  ...JSON.parse(localStorage.getItem("cryptoDash")),
+                  currentFavorite: sym
+                })
+              );
             }
           };
           return index < 5 ? (
