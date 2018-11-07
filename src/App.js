@@ -94,6 +94,7 @@ class App extends Component {
       firstVisit: false,
       page: "dashboard"
     });
+    this.fetchPrices();
   };
 
   settingsContent = () => {
