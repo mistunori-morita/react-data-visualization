@@ -44,6 +44,14 @@ export const CoinTitle = styled.div`
       pointer-events: none;
       opacity: 0.4;
     `};
+
+  ${props =>
+    props.dashboardFavorite &&
+    css`
+      &:hover {
+        pointer-events: none;
+      }
+    `};
 `;
 
 export const FavoritedCoin = styled(CoinTitle)`

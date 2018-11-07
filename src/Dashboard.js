@@ -28,14 +28,22 @@ const CoinTitleCompact = styled(CoinTitle)`
 `;
 
 export default function() {
+  let self = this;
   return (
     <CoinGrid>
-      {this.state.prices.map((price, index) => {
+      {this.state.prices.map(function(price, index) {
         let sym = Object.keys(price)[0];
         let data = price[sym]["USD"];
-
+        let tileProps = {
+          dashboardFavorite: sym === self.state.currentFavorite,
+          onClick: () => {
+            self.setState({
+              currentFavorite: sym
+            });
+          }
+        };
         return index < 5 ? (
-          <CoinTitle>
+          <CoinTitle {...tileProps}>
             <CoinHeaderGrid>
               <div>{sym}</div>
               <CoinSymbol>
@@ -47,7 +55,7 @@ export default function() {
             <TickerPrice>${numberFormat(data.PRICE)}</TickerPrice>
           </CoinTitle>
         ) : (
-          <CoinTitleCompact>
+          <CoinTitleCompact {...tileProps}>
             <div>{sym}</div>
             <CoinSymbol>
               <ChangePct red={data.CHANGEPCT24HOUR < 0}>
