@@ -9,7 +9,8 @@ import {
   subtleBoxShadow,
   lightBlueBackground
 } from "./Style";
-
+import HighchartsTheme from "./HighchartsTheme";
+ReactHighcharts.Highcharts.setOptions(HighchartsTheme);
 const numberFormat = number => {
   return +(number + "").slice(0, 7);
 };
