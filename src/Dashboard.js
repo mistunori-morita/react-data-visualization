@@ -75,7 +75,7 @@ export default function() {
             }
           };
           return index < 5 ? (
-            <CoinTitle {...tileProps}>
+            <CoinTitle key={index} {...tileProps}>
               <CoinHeaderGrid>
                 <div>{sym}</div>
                 <CoinSymbol>
@@ -87,7 +87,7 @@ export default function() {
               <TickerPrice>${numberFormat(data.PRICE)}</TickerPrice>
             </CoinTitle>
           ) : (
-            <CoinTitleCompact {...tileProps}>
+            <CoinTitleCompact key={index} {...tileProps}>
               <div>{sym}</div>
               <CoinSymbol>
                 <ChangePct red={data.CHANGEPCT24HOUR < 0}>
