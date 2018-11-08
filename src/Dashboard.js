@@ -50,6 +50,9 @@ const ChartGrid = styled.div`
 
 export default function() {
   let self = this;
+  const { historical } = this.state;
+  console.log(this.state, "dashboard");
+  console.log(historical);
   return (
     <React.Fragment>
       <CoinGrid>
@@ -108,7 +111,7 @@ export default function() {
             }`}
           />
         </PaddingBlue>
-        <ReactHighcharts config={HighChartsConfig()} />
+        <ReactHighcharts config={HighChartsConfig(historical)} />
         <PaddingBlue />
       </ChartGrid>
     </React.Fragment>

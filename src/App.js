@@ -7,6 +7,7 @@ import Search from "./Search";
 import CoinList from "./CoinList";
 import Dashboard from "./Dashboard";
 import _ from "lodash";
+import moment from "moment";
 import { ConfirmButton } from "./Button";
 
 const cc = require("cryptocompare");
@@ -22,6 +23,7 @@ export const CenterDiv = styled.div`
 `;
 
 const MAX_FAVORITES = 10;
+const TIME_UNITS = 10;
 
 const checkFirstVisit = () => {
   let cryptoDashData = JSON.parse(localStorage.getItem("cryptoDash"));
@@ -48,11 +50,11 @@ class App extends Component {
   componentDidMount = () => {
     this.fetchCoins();
     this.fetchPrices();
+    this.fetchHistorical();
   };
 
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
-    console.log(coinList);
     this.setState({ coinList });
   };
   fetchPrices = async () => {
@@ -62,7 +64,6 @@ class App extends Component {
     } catch (e) {
       this.setState({ error: true });
     }
-    console.log(prices);
     this.setState({ prices });
   };
   prices = () => {
@@ -71,6 +72,24 @@ class App extends Component {
       promises.push(cc.priceFull(sym, "USD"));
     });
     return Promise.all(promises);
+  };
+
+  fetchHistorical = async () => {
+    if (this.state.firstVisit) return;
+    let results = await this.historical();
+    console.log("results", results);
+    let historical = [
+      {
+        name: this.state.currentFavorite,
+        data: results.map((ticker, index) => [
+          moment()
+            .subtract({ moments: TIME_UNITS - index })
+            .valueOf(),
+          ticker.USD
+        ])
+      }
+    ];
+    this.setState({ historical });
   };
 
   displayingDashboard = () => this.state.page === "dashboard";
@@ -143,6 +162,22 @@ class App extends Component {
     this.setState({ favorites: _.pull(favorites, key) });
   };
 
+  historical = () => {
+    let promises = [];
+    for (let units = TIME_UNITS; units > 0; units--) {
+      promises.push(
+        cc.priceHistorical(
+          this.state.currentFavorite,
+          ["USD"],
+          moment()
+            .subtract({ months: units })
+            .toDate()
+        )
+      );
+    }
+    return Promise.all(promises);
+  };
+
   isInFavorites = key => {
     return _.includes(this.state.favorites, key);
   };
@@ -154,7 +189,6 @@ class App extends Component {
     let fuzzyResults = fuzzy
       .filter(inputValue, allStringsToSearch, {})
       .map(result => result.string);
-    console.log(fuzzyResults);
     let filterdCoins = _.pickBy(this.state.coinList, (result, symKey) => {
       let coinName = result.CoinName;
       return (
@@ -164,7 +198,6 @@ class App extends Component {
     this.setState({ filterdCoins });
   }, 500);
   filterCoins = e => {
-    console.log(e.target.value);
     let inputValue = _.get(e, "target.value");
     if (!inputValue) {
       this.setState({

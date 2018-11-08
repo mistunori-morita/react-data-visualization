@@ -80,7 +80,6 @@ export const DeleteIcon = styled.div`
 `;
 
 export default function(favorites = false) {
-  console.log(this.state);
   const coinData = this.state.coinList;
   let coinKeys = favorites
     ? this.state.favorites

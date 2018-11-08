@@ -1,4 +1,4 @@
-export default function() {
+export default function(historical) {
   return {
     title: {
       text: ""
@@ -14,7 +14,9 @@ export default function() {
       align: "right",
       verticalAlign: "middle"
     },
-
+    xAxis: {
+      type: "datetime"
+    },
     plotOptions: {
       series: {
         label: {
@@ -24,12 +26,7 @@ export default function() {
       }
     },
 
-    series: [
-      {
-        name: "Installation",
-        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-      }
-    ],
+    series: historical,
 
     responsive: {
       rules: [
