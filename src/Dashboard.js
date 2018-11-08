@@ -1,6 +1,8 @@
 import React from "react";
 import { CoinGrid, CoinTitle, CoinHeaderGrid, CoinSymbol } from "./CoinList";
 import styled, { css } from "styled-components";
+import ReactHighcharts from "react-highcharts";
+import HighChartsConfig from "./HighChartsConfig";
 import {
   fontSizeBig,
   fontSize3,
@@ -105,7 +107,8 @@ export default function() {
             }`}
           />
         </PaddingBlue>
-        <PaddingBlue>Chart goes here....</PaddingBlue>
+        <ReactHighcharts config={HighChartsConfig()} />
+        <PaddingBlue />
       </ChartGrid>
     </React.Fragment>
   );
